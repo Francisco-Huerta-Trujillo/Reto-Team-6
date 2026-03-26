@@ -11,6 +11,7 @@ public class CustomRequest : MonoBehaviour
 {
 
     public string url;
+    public SensorManager sensorManager;
     void Start()
     {
         // A correct website page.
@@ -37,12 +38,9 @@ public class CustomRequest : MonoBehaviour
                     Debug.LogError(pages[page] + ": HTTP Error: " + webRequest.error);
                     break;
                 case UnityWebRequest.Result.Success:
-                    // Debug.Log(pages[page] + ":\nReceived: " + webRequest.downloadHandler.text);
                     string jsonString = webRequest.downloadHandler.text;
                     SensorInfo sensorinfo = JsonUtility.FromJson<SensorInfo>(jsonString);
-                    Debug.Log("Count: " + sensorinfo.sensores.Count);
-                    // PokeInfo pokeinfo = JsonUtility.FromJson<PokeInfo>(jsonString);
-                    // Debug.Log("Count: " + pokeinfo.count);
+                    sensorManager.SetupSensors(sensorinfo);
                     break;
             }
         }
